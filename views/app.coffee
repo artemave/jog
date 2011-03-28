@@ -1,4 +1,4 @@
-define ['lib/jade', 'text!views/app.jade'], (jade, template) ->
+define ['vendor/jade', 'text!views/app.jade'], (jade, template) ->
   class AppView extends Backbone.View
 
     initialize: ->
