@@ -6,5 +6,8 @@ define ['vendor/jade', 'text!views/app.jade'], (jade, template) ->
       this.render()
 
     render: ->
-      $(this.el).html(jade.render(template, {}))
+      LjApi.LJ.XMLRPC.getchallenge
+        params: []
+        onSuccess: (res) =>
+          $(this.el).html(jade.render(template, {locals: { authtoken: res.challenge }}))
 
