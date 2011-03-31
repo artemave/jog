@@ -135,8 +135,8 @@ rpc.ServiceProxy = function(serviceURL, options){
 						"'sanitize' option to false (it is true by default) in order to proceed with making " +
 						"potentially insecure cross-site rpc calls.");
 		}
-		else if(this.__protocol == 'XML-RPC')
-			throw Error("Unable to use the XML-RPC protocol to access services on other domains.");
+		//else if(this.__protocol == 'XML-RPC')
+		//	throw Error("Unable to use the XML-RPC protocol to access services on other domains.");
 	}
 	
 	//Obtain the list of methods made available by the server
@@ -225,7 +225,8 @@ rpc.ServiceProxy.prototype.__callMethod = function(methodName, params, successHa
 		}
 			
 		//Asynchronous cross-domain call (JSON-in-Script) -----------------------------------------------------
-		if(this.__isCrossSite){ //then this.__isAsynchronous is implied
+		//if(this.__isCrossSite){ //then this.__isAsynchronous is implied
+		if(false){ //then this.__isAsynchronous is implied
 			
 			//Create an ad hoc function specifically for this cross-site request; this is necessary because it is 
 			//  not possible pass an JSON-RPC request object with an id over HTTP Get requests.
