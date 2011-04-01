@@ -1,4 +1,4 @@
-define ['vendor/jade', 'text!views/app.jade'], (jade, template) ->
+define ['vendor/jade', 'text!views/app.jade', 'cs!lib/lj-client'], (jade, template, lj) ->
   class AppView extends Backbone.View
 
     initialize: ->
@@ -6,7 +6,7 @@ define ['vendor/jade', 'text!views/app.jade'], (jade, template) ->
       this.render()
 
     render: ->
-      LjApi.LJ.XMLRPC.getchallenge
+      lj.getchallenge
         params: []
         onSuccess: (res) =>
           $(this.el).html(jade.render(template, {locals: { authtoken: res.challenge }}))
