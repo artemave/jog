@@ -3,10 +3,9 @@ define ['vendor/rpc', 'vendor/md5-min'], () ->
   class Session
     constructor: (username, password) ->
 
-      proxy = if location.protocol is 'http:' then '' else 'http://www.livejournal.com'
-      pub_methods = ['LJ.XMLRPC.login', 'LJ.XMLRPC.checkfriends']
+      pub_methods = ['LJ.XMLRPC.login', 'LJ.XMLRPC.checkfriends', 'LJ.XMLRPC.getevents']
 
-      ljapi = new rpc.ServiceProxy "#{proxy}/interface/xmlrpc", {
+      ljapi = new rpc.ServiceProxy window.AppConfig.ljapi_url, {
         protocol: 'XML-RPC'
         sanitize: false
         methods: pub_methods.concat ['LJ.XMLRPC.getchallenge']
@@ -25,7 +24,7 @@ define ['vendor/rpc', 'vendor/md5-min'], () ->
               chal_key = hex_md5(chal_res.challenge + (hex_md5 password))
               ljapi.LJ.XMLRPC[pub_name]
                 params: [
-                  _.defaults (opts.args || {}), {
+                  _.defaults (opts.params || {}), {
                     ver: 1
                     username: username
                     auth_method: 'challenge'
