@@ -1,4 +1,4 @@
-define ['vendor/jade', 'text!views/app.jade', 'cs!lib/lj-client', 'cs!lib/config'], (jade, template, LjSession) ->
+define ['vendor/jade', 'text!views/app.jade', 'cs!lib/lj-client'], (jade, template, LjSession) ->
   class AppView extends Backbone.View
 
     initialize: ->
@@ -14,5 +14,5 @@ define ['vendor/jade', 'text!views/app.jade', 'cs!lib/lj-client', 'cs!lib/config
           howmany: 20
         callback: (res) =>
           console.log(res)
-          #$(this.el).html(jade.render(template, {locals: {login: res}}))
+          $(this.el).html(jade.render(template, {}))
 

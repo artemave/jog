@@ -5,14 +5,17 @@ require({
     },
     priority: ['vendor/jquery-1.5.1.min', 'vendor/underscore-min']
   },
-  ['cs!views/app', 'vendor/jquery-1.5.1.min', 'vendor/backbone-min', 'vendor/underscore-min'], function(app_view) {
-    $(function() {
-        try {
-          window.App = new app_view;
-        }
-        catch (e) {
-          alert(e);
-        }
-    });
+  ['cs!views/app', 'cs!lib/config', 'vendor/jquery-1.5.1.min', 'vendor/backbone-min', 'vendor/underscore-min'], function(AppView, AppConfig) {
+    function ignite() {
+      window.AppConfig = new AppConfig;
+      window.App = new AppView;
+    };
+
+    if (window.AppConfig.env == 'mobile') {
+      $(document).bind('deviceready', function() { ignite() });
+    }
+    else {
+      $(function() { ignite() });
+    }
   }
 );

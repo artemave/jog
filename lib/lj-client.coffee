@@ -16,9 +16,12 @@ define ['vendor/rpc', 'vendor/md5-min'], () ->
       _(pub_methods).each (method) =>
         pub_name = ( method.match /LJ.XMLRPC.(.*)/ )[1]
         this[pub_name] = (opts = {}) ->
+          navigator.notification.activityStart()
+
           ljapi.LJ.XMLRPC.getchallenge
             params: []
             onException: (e) ->
+              navigator.notification.activityStop()
               alert(e)
             onSuccess: (chal_res) ->
               chal_key = hex_md5(chal_res.challenge + (hex_md5 password))
@@ -35,4 +38,6 @@ define ['vendor/rpc', 'vendor/md5-min'], () ->
                 onSuccess: opts.callback
                 onException: (e) ->
                   alert(e)
+                onComplete: ->
+                  navigator.notification.activityStop()
 
