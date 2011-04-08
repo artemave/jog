@@ -7,11 +7,7 @@ define ['vendor/jade', 'text!views/app.jade', 'cs!lib/lj-client'], (jade, templa
       this.render()
 
     render: ->
-      @session.getevents
-        params:
-          truncate: 100
-          selecttype: 'lastn'
-          howmany: 20
+      @session.getfriendspage
         callback: (res) =>
           console.log(res)
           $(this.el).html(jade.render(template, {}))

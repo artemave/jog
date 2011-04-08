@@ -863,8 +863,8 @@ rpc.ServiceProxy.prototype.__parseXMLRPC = function(valueEl){
 					}
 					throw Error("XML-RPC Parse Error: The provided value does not match ISO8601.");
 				case 'base64':
-					throw Error("Not able to parse base64 data yet.");
-					//return base64_decode(typeEL.firstChild.nodeValue);
+					//throw Error("Not able to parse base64 data yet.");
+					return Base64.decode(typeEL.firstChild.nodeValue);
 				case 'nil':
 					return null;
 				case 'struct':

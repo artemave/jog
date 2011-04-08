@@ -3,7 +3,13 @@ define ['vendor/rpc', 'vendor/md5-min'], () ->
   class Session
     constructor: (username, password) ->
 
-      pub_methods = ['LJ.XMLRPC.login', 'LJ.XMLRPC.checkfriends', 'LJ.XMLRPC.getevents']
+      pub_methods = [
+        'LJ.XMLRPC.login'
+        'LJ.XMLRPC.checkfriends'
+        'LJ.XMLRPC.getevents'
+        'LJ.XMLRPC.syncitems'
+        'LJ.XMLRPC.getfriendspage'
+      ]
 
       ljapi = new rpc.ServiceProxy window.AppConfig.ljapi_url, {
         protocol: 'XML-RPC'
