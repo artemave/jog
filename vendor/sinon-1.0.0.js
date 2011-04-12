@@ -1971,7 +1971,7 @@ if (typeof module == "object" && typeof require == "function") {
  *
  * Copyright (c) 2010-2011 Christian Johansen
  */
-if (typeof require == "function") {
+if (typeof module == "object" && typeof require == "function") {
     var sinon = require("sinon");
     sinon.extend(sinon, require("sinon/util/fake_timers"));
 }
