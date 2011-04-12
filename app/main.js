@@ -26,7 +26,7 @@ require({
       require({
           priority: ['vendor/jasmine-1.0.2/jasmine', 'vendor/jasmine-1.0.2/jasmine-html']
         },
-        ['text!vendor/jasmine-1.0.2/jasmine.css', 'vendor/jasmine-1.0.2/jasmine', 'vendor/jasmine-1.0.2/jasmine-html', 'vendor/sinon/lib/sinon'].concat(specs), function(css) {
+        ['text!vendor/jasmine-1.0.2/jasmine.css', 'vendor/jasmine-1.0.2/jasmine', 'vendor/jasmine-1.0.2/jasmine-html', 'vendor/sinon-1.0.0'].concat(specs), function(css) {
           $('<style type="text/css">').text(css).appendTo('head');
 
           ignite_with(function() {

@@ -1,3 +1,0 @@
-[submodule "vendor/sinon"]
-	path = vendor/sinon
-	url = https://github.com/cjohansen/Sinon.JS.git

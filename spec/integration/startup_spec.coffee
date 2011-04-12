@@ -1,11 +1,8 @@
 describe "When app starts", ->
-  it "should check if user is set", ->
-    #User.current = null
-
+  it "should check if user is set", -> sinon.test ->
 
   describe "... and user is not set", ->
-    xit "should open settings page", ->
-    xit 'should tell user what is missing', ->
+    xit "should prompt for login details", ->
 
   xit 'should check that the user login is correct', ->
 
