@@ -1,13 +1,16 @@
 require({
-    paths: { // RequireJS plugin aliases
+    paths: {
       cs: '../vendor/rjs-cs',
       text: '../vendor/rjs-text-min',
       vendor: '../vendor',
-      spec: '../spec'
+      spec: '../spec',
+      backbone: '../vendor/backbone-min',
+      jquery: '../vendor/jquery-1.5.1.min',
+      sinon: '../vendor/sinon-1.0.0'
     },
-    priority: ['vendor/jquery-1.5.1.min', 'vendor/underscore-min', 'vendor/webtoolkit.base64']
+    priority: ['jquery', 'vendor/underscore-min', 'cs!lib/namespace']
   },
-  ['cs!views/app', 'cs!config', 'vendor/jquery-1.5.1.min', 'vendor/backbone-min', 'vendor/underscore-min', 'vendor/webtoolkit.base64'], function(AppView, AppConfig) {
+  ['cs!controllers/app_controller', 'cs!config', 'jquery', 'backbone', 'vendor/underscore-min', 'cs!lib/namespace'], function(AppController, AppConfig, $) {
     function ignite_with(fire) {
       if (window.AppConfig.current_device == 'mobile') {
         $(document).bind('deviceready', function() { fire() });
@@ -26,7 +29,7 @@ require({
       require({
           priority: ['vendor/jasmine-1.0.2/jasmine', 'vendor/jasmine-1.0.2/jasmine-html']
         },
-        ['text!vendor/jasmine-1.0.2/jasmine.css', 'vendor/jasmine-1.0.2/jasmine', 'vendor/jasmine-1.0.2/jasmine-html', 'vendor/sinon-1.0.0'].concat(specs), function(css) {
+        ['text!vendor/jasmine-1.0.2/jasmine.css', 'vendor/jasmine-1.0.2/jasmine', 'vendor/jasmine-1.0.2/jasmine-html', 'sinon'].concat(specs), function(css) {
           $('<style type="text/css">').text(css).appendTo('head');
 
           ignite_with(function() {
@@ -37,8 +40,8 @@ require({
     }
     else {
       ignite_with(function() {
-          window.App = new AppView;
-          //Backbone.history.start();
+          window.App = new AppController;
+          Backbone.history.start();
       });
     }
   }

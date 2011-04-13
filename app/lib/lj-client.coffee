@@ -1,4 +1,4 @@
-define ['vendor/rpc', 'vendor/md5-min'], () ->
+define ['vendor/rpc', 'vendor/webtoolkit.base64', 'vendor/md5-min'], () ->
 
   class Session
     constructor: (username, password) ->

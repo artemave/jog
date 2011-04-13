@@ -1,5 +1,5 @@
 define () ->
-  class AppConfig
+  class
     constructor: (opts) ->
       opts = _(opts).defaults
         env: 'development'
