@@ -11,7 +11,7 @@ define ['vendor/rpc', 'vendor/webtoolkit.base64', 'vendor/md5-min'], () ->
         'LJ.XMLRPC.getfriendspage'
       ]
 
-      ljapi = new rpc.ServiceProxy window.AppConfig.ljapi_url, {
+      ljapi = new rpc.ServiceProxy App.Config.ljapi_url, {
         protocol: 'XML-RPC'
         sanitize: false
         methods: pub_methods.concat ['LJ.XMLRPC.getchallenge']

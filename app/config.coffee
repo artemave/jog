@@ -1,4 +1,4 @@
-define () ->
+define ->
   class
     constructor: (opts) ->
       opts = _(opts).defaults

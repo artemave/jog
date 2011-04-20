@@ -8,11 +8,21 @@ require({
       jquery: '../vendor/jquery-1.5.1.min',
       sinon: '../vendor/sinon-1.0.0'
     },
-    priority: ['jquery', 'vendor/underscore-min', 'cs!lib/namespace']
+    priority: ['jquery', 'vendor/underscore-min', 'cs!lib/namespace', 'backbone']
   },
-  ['cs!controllers/app_controller', 'cs!config', 'jquery', 'backbone', 'vendor/underscore-min', 'cs!lib/namespace'], function(AppController, AppConfig, $) {
+  [
+    'jquery',
+    'cs!config',
+    'cs!controllers/app_controller',
+    'cs!controllers/session',
+    'cs!controllers/friends',
+    'cs!models/user', 
+    'backbone',
+    'vendor/underscore-min',
+    'cs!lib/namespace'
+  ], function($, AppConfig) {
     function ignite_with(fire) {
-      if (window.AppConfig.current_device == 'mobile') {
+      if (App.Config.current_device == 'mobile') {
         $(document).bind('deviceready', function() { fire() });
       }
       else {
@@ -20,9 +30,9 @@ require({
       }
     };
 
-    window.AppConfig = new AppConfig({env: 'test'});
+    App.Config = new AppConfig({env: 'test'});
 
-    if (window.AppConfig.env == 'test') {
+    if (App.Config.env == 'test') {
       var specs = [
         'cs!spec/integration/startup_spec'
       ];
@@ -40,8 +50,12 @@ require({
     }
     else {
       ignite_with(function() {
-          window.App = new AppController;
+          var app = new App.Controller.Main;
+          new App.Controller.Session;
+          new App.Controller.Friends;
           Backbone.history.start();
+
+          app.start();
       });
     }
   }
