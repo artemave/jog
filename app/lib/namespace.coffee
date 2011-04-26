@@ -4,6 +4,6 @@ namespace = (target, name, block) ->
   target = target[item] or= {} for item in name.split '.'
   block target, top
 
-namespace 'App.Model', ->
-namespace 'App.View', ->
-namespace 'App.Controller', ->
+namespace 'Jog.Model', ->
+namespace 'Jog.View', ->
+namespace 'Jog.Controller', ->

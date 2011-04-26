@@ -1,14 +1,32 @@
 describe "When app starts", ->
-  it "should check if user is set", sinon.test ->
-    App.Model.User = current: this.spy()
-    app = new App.Controller.Main
-    app.start()
-    ( expect App.Model.User.current.called ).toBeTruthy()
+  afterEach ->
+    Backbone.history.saveLocation('')
 
-  describe "... and user is not set", ->
-    xit "should prompt for login details", ->
+  it "should check if user is set", ->
+    runs ->
+      spyOn(Jog.Model.User, 'current')
 
-  xit 'should check that the user login is correct', ->
+      Jog.Sandbox.start()
 
-  describe '... and user login is correct', ->
-    xit 'should open friends page', ->
+    waitsFor ->
+      Jog.Model.User.current.callCount == 1
+    , 1000, 'user check'
+
+  describe "and user is not set", ->
+    it "should redirect to login screen", ->
+      runs ->
+        spyOn(Jog.Model.User, 'current').andCallFake -> null
+        spyOn(Jog.Controller.Session.prototype, 'new').andCallFake -> null
+
+        Jog.Sandbox.start()
+
+      waitsFor ->
+        Jog.Controller.session.new.callCount == 1
+      , 1000, 'redirect to new session'
+
+  describe 'and user is set', ->
+    xit 'should validate user', ->
+    describe 'and user is valid', ->
+      xit 'should redirect to friends posts page', ->
+    describe 'and user is invalid', ->
+      xit 'should redirect to login screen', ->

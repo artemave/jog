@@ -1,2 +1,2 @@
-App.Controller.Friends = class extends Backbone.Controller
+Jog.Controller.Friends = class extends Backbone.Controller
 

@@ -1,7 +1,6 @@
-define ['backbone', 'cs!models/user'] ->
-  class extends Backbone.Controller
+Jog.Controller.Posts = class extends Backbone.Controller
     routes:
-      ':context/posts/index': 'index'
+      'posts/index': 'index'
 
-    index: (context) ->
+    index: ->
       console.log context
