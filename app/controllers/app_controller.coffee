@@ -1,7 +1,9 @@
 Jog.Controller.Main = class extends Backbone.Controller
   start: ->
-    unless Jog.Model.User.current()
-      window.location.hash = 'session/new'
+    current_user = Jog.Model.User.current()
+
+    if current_user? and current_user.valid()
+      window.location.hash = 'posts/index/friends'
     else
-      window.location.hash = 'posts/index'
+      window.location.hash = 'session/new'
 

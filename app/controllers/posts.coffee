@@ -1,6 +1,6 @@
 Jog.Controller.Posts = class extends Backbone.Controller
     routes:
-      'posts/index': 'index'
+      'posts/index/:context': 'index'
 
-    index: ->
-      console.log context
+    index: (context) ->
+      console.log "posts controller called in context #{context}"
