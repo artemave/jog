@@ -2,26 +2,23 @@ require({
     paths: {
       cs: '../vendor/rjs-cs',
       text: '../vendor/rjs-text-min',
+      order: '../vendor/rjs-order-min',
       vendor: '../vendor',
-      spec: '../spec',
-      backbone: '../vendor/backbone',
-      jquery: '../vendor/jquery-1.5.1.min',
-      sinon: '../vendor/sinon-1.0.0'
-    },
-    priority: ['jquery', 'vendor/underscore-min', 'cs!lib/namespace', 'backbone']
+      spec: '../spec'
+    }
   },
   [
-    'jquery',
-    'cs!config',
-    'cs!controllers/app_controller',
-    'cs!controllers/session',
-    'cs!controllers/friends',
-    'cs!controllers/posts',
-    'cs!models/user', 
-    'backbone',
-    'vendor/underscore-min',
-    'cs!lib/namespace'
-  ], function($, JogConfig) {
+    'order!vendor/jquery-1.5.1.min',
+    'order!vendor/underscore-min',
+    'order!vendor/backbone',
+    'order!cs!lib/namespace',
+    'order!cs!config',
+    'order!cs!controllers/app_controller',
+    'order!cs!controllers/session',
+    'order!cs!controllers/friends',
+    'order!cs!controllers/posts',
+    'order!cs!models/user'
+  ], function() {
     function ignite_with(fire) {
       if (Jog.config.current_device == 'mobile') {
         $(document).bind('deviceready', function() { fire() });
@@ -37,21 +34,32 @@ require({
       Jog.Controller.posts = new Jog.Controller.Posts;
       Jog.Controller.friends = new Jog.Controller.Friends;
 
-      Backbone.history.start();
+      try {
+        Backbone.history.start();
+      }
+      catch (e) {
+        if (e.message != 'Backbone.history has already been started') {
+          throw e;
+        }
+      }
       Jog.Controller.main.start();
     };
 
-    Jog.config = new JogConfig({env: 'test'});
+    Jog.config = new Jog.Config({env: 'test'});
 
     if (Jog.config.env == 'test') {
       var specs = [
-        'cs!spec/helpers',
-        'cs!spec/integration/startup_spec'
+        'order!cs!spec/helpers',
+        'order!cs!spec/integration/startup_spec'
       ];
-      require({
-          priority: ['vendor/jasmine-1.0.2/jasmine', 'vendor/jasmine-1.0.2/jasmine-html', 'sinon']
-        },
-        ['text!vendor/jasmine-1.0.2/jasmine.css', 'vendor/jasmine-1.0.2/jasmine', 'vendor/jasmine-1.0.2/jasmine-html', 'sinon', 'vendor/jasmine-sinon'].concat(specs), function(css) {
+      require(
+        [
+          'text!vendor/jasmine-1.0.2/jasmine.css',
+          'order!vendor/jasmine-1.0.2/jasmine',
+          'order!vendor/jasmine-1.0.2/jasmine-html',
+          'order!vendor/sinon-1.0.0',
+          'order!vendor/jasmine-sinon'
+        ].concat(specs), function(css) {
           $('<style type="text/css">').text(css).appendTo('head');
 
           ignite_with(function() {
