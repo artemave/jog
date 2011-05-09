@@ -1,3 +1,5 @@
+var ENV = 'test';
+
 require({
     paths: {
       cs: '../vendor/rjs-cs',
@@ -45,7 +47,7 @@ require({
       Jog.Controller.main.start();
     };
 
-    Jog.config = new Jog.Config({env: 'test'});
+    Jog.config = new Jog.Config({env: ENV});
 
     if (Jog.config.env == 'test') {
       var specs = [
@@ -57,8 +59,7 @@ require({
           'text!vendor/jasmine-1.0.2/jasmine.css',
           'order!vendor/jasmine-1.0.2/jasmine',
           'order!vendor/jasmine-1.0.2/jasmine-html',
-          'order!vendor/sinon-1.0.0',
-          'order!vendor/jasmine-sinon'
+          'order!vendor/sinon-1.0.0'
         ].concat(specs), function(css) {
           $('<style type="text/css">').text(css).appendTo('head');
 

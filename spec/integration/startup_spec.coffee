@@ -55,7 +55,7 @@ describe "When app starts", ->
         , 1000, 'redirect to friends posts'
 
         runs ->
-          expect( Jog.Controller.posts.index ).toHaveBeenCalledWith( Jog.Controller.posts.index.mostRecentCall.args... )
+          expect( Jog.Controller.posts.index ).toHaveBeenCalledWith 'friends'
 
     describe 'and user is invalid', ->
       it 'should redirect to login screen', ->
