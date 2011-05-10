@@ -1,3 +1,9 @@
 Jog.Model.User = class extends Backbone.Model
-  @current: (user) ->
-    console.log "current called"
+  @fetch: ->
+    console.log "fetch called"
+
+  store: ->
+    console.log 'load called'
+
+  valid: ->
+    console.log 'valid called'

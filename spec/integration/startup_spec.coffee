@@ -6,18 +6,18 @@ describe "When app starts", ->
 
   it "should check if user is set", ->
     runs ->
-      spyOn(Jog.Model.User, 'current')
+      spyOn(Jog.Model.User, 'fetch')
 
       Jog.start()
 
     waitsFor ->
-      Jog.Model.User.current.callCount == 1
+      Jog.Model.User.fetch.callCount == 1
     , 1000, 'user check existence'
 
   describe "and user is not set", ->
     it "should redirect to login screen", ->
       runs ->
-        spyOn(Jog.Model.User, 'current')
+        spyOn(Jog.Model.User, 'fetch')
         spyOn(Jog.Controller.Session.prototype, 'new')
 
         Jog.start()
@@ -31,7 +31,7 @@ describe "When app starts", ->
       runs ->
         this.user = valid: ->
 
-        spyOn(Jog.Model.User, 'current').andReturn this.user
+        spyOn(Jog.Model.User, 'fetch').andReturn this.user
         spyOn(this.user, 'valid')
 
         Jog.start()
@@ -45,7 +45,7 @@ describe "When app starts", ->
         runs ->
           this.user = valid: -> true
 
-          spyOn(Jog.Model.User, 'current').andReturn this.user
+          spyOn(Jog.Model.User, 'fetch').andReturn this.user
           spyOn(Jog.Controller.Posts.prototype, 'index')
 
           Jog.start()
@@ -62,7 +62,7 @@ describe "When app starts", ->
         runs ->
           this.user = valid: -> false
 
-          spyOn(Jog.Model.User, 'current').andReturn this.user
+          spyOn(Jog.Model.User, 'fetch').andReturn this.user
           spyOn(Jog.Controller.Session.prototype, 'new')
 
           Jog.start()

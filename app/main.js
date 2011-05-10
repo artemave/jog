@@ -52,7 +52,8 @@ require({
     if (Jog.config.env == 'test') {
       var specs = [
         'order!cs!spec/helpers',
-        'order!cs!spec/integration/startup_spec'
+        'order!cs!spec/integration/startup_spec',
+        'order!cs!spec/models/user_spec'
       ];
       require(
         [
