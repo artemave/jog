@@ -8,7 +8,7 @@ Jog.Config = class
     this.ljapi_url = ( if this.current_device is 'mobile' then 'http://www.livejournal.com' else '' ) + '/interface/xmlrpc'
 
     # stub out phonegap api to run in firebug
-    if this.current_device is 'desktop'
+    if this.current_device is 'desktop' and navigator.userAgent.match(/Firefox/)
       apis = ['notification']
 
       _(apis).each (api) ->
