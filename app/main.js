@@ -25,8 +25,10 @@ require({
   }, dep_libs, function() {
       require(app_libs, function() {
           function ignite_with(fire) {
-            if (Jog.config.current_device == 'mobile') {
-              $(document).bind('deviceready', function() { fire() });
+            if (Jog.config.current_device == 'mobile' && navigator.device == undefined) { //navigator.device == undefined is a hack against deviceready being fired too early to catch (android)
+              $(document).bind('deviceready', function() {
+                  $(function() { fire() });
+              });
             }
             else {
               $(function() { fire() });
@@ -60,8 +62,8 @@ require({
             ];
             var spec_deps = [
               'text!vendor/jasmine-1.0.2/jasmine.css',
-              'vendor/jasmine-1.0.2/jasmine',
-              'vendor/jasmine-1.0.2/jasmine-html',
+              'order!vendor/jasmine-1.0.2/jasmine',
+              'order!vendor/jasmine-1.0.2/jasmine-html',
               'vendor/sinon-1.0.0'
             ];
             require(spec_deps, function(css) {
