@@ -36,10 +36,14 @@ require({
           };
 
           Jog.start = function() {
-            Jog.Controller.main = new Jog.Controller.Main;
-            Jog.Controller.session = new Jog.Controller.Session;
-            Jog.Controller.posts = new Jog.Controller.Posts;
-            Jog.Controller.friends = new Jog.Controller.Friends;
+            var app = {
+              controllers: {
+                main: new Jog.Controller.Main,
+                session: new Jog.Controller.Session,
+                posts: new Jog.Controller.Posts,
+                friends: new Jog.Controller.Friends
+              }
+            };
 
             try {
               Backbone.history.start();
@@ -49,7 +53,9 @@ require({
                 throw e;
               }
             }
-            Jog.Controller.main.start();
+            app.controllers.main.start();
+
+            return app;
           };
 
           Jog.config = new Jog.Config({env: ENV});

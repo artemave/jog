@@ -20,10 +20,10 @@ describe "When app starts", ->
         spyOn(Jog.Model.User, 'fetch')
         spyOn(Jog.Controller.Session.prototype, 'new')
 
-        Jog.start()
+        this.app = Jog.start()
 
       waitsFor ->
-        Jog.Controller.session.new.callCount == 1
+        this.app.controllers.session.new.callCount == 1
       , 1000, 'redirect to new session'
 
   describe 'and user is set', ->
@@ -48,14 +48,14 @@ describe "When app starts", ->
           spyOn(Jog.Model.User, 'fetch').andReturn this.user
           spyOn(Jog.Controller.Posts.prototype, 'index')
 
-          Jog.start()
+          this.app = Jog.start()
 
         waitsFor ->
-          Jog.Controller.posts.index.callCount == 1
+          this.app.controllers.posts.index.callCount == 1
         , 1000, 'redirect to friends posts'
 
         runs ->
-          expect( Jog.Controller.posts.index ).toHaveBeenCalledWith 'friends'
+          expect( this.app.controllers.posts.index ).toHaveBeenCalledWith 'friends'
 
     describe 'and user is invalid', ->
       it 'should redirect to login screen', ->
@@ -65,8 +65,8 @@ describe "When app starts", ->
           spyOn(Jog.Model.User, 'fetch').andReturn this.user
           spyOn(Jog.Controller.Session.prototype, 'new')
 
-          Jog.start()
+          this.app = Jog.start()
 
         waitsFor ->
-          Jog.Controller.session.new.callCount == 1
+          this.app.controllers.session.new.callCount == 1
         , 1000, 'redirect to new session'
