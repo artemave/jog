@@ -3,9 +3,14 @@ var dep_libs = [
   'vendor/jquery-1.5.1.min',
   'vendor/underscore-min',
   'vendor/backbone',
+  'vendor/persistence',
+  'vendor/persistence.store.sql',
+  'vendor/persistence.store.websql',
+  'vendor/persistence.migrations',
   'cs!lib/namespace'
 ];
 var app_libs = [
+  'cs!migrations/10_users',
   'cs!config',
   'cs!controllers/app_controller',
   'cs!controllers/session',
@@ -20,6 +25,7 @@ require({
       text: '../vendor/rjs-text-min',
       order: '../vendor/rjs-order-min',
       vendor: '../vendor',
+      migrations: '../db/migrations',
       spec: '../spec'
     }
   }, dep_libs, function() {
@@ -36,26 +42,30 @@ require({
           };
 
           Jog.start = function() {
-            var app = {
-              controllers: {
-                main: new Jog.Controller.Main,
-                session: new Jog.Controller.Session,
-                posts: new Jog.Controller.Posts,
-                friends: new Jog.Controller.Friends
-              }
-            };
+            persistence.migrations.init(function() {
+                persistence.migrate(function() {
+                    var app = {
+                      controllers: {
+                        main: new Jog.Controller.Main,
+                        session: new Jog.Controller.Session,
+                        posts: new Jog.Controller.Posts,
+                        friends: new Jog.Controller.Friends
+                      }
+                    };
 
-            try {
-              Backbone.history.start();
-            }
-            catch (e) {
-              if (e.message != 'Backbone.history has already been started') {
-                throw e;
-              }
-            }
-            app.controllers.main.start();
+                    try {
+                      Backbone.history.start();
+                    }
+                    catch (e) {
+                      if (e.message != 'Backbone.history has already been started') {
+                        throw e;
+                      }
+                    }
 
-            return app;
+                    app.controllers.main.start();
+                    window.app = app;
+                });
+            });
           };
 
           Jog.config = new Jog.Config({env: ENV});

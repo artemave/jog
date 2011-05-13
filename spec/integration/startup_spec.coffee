@@ -5,14 +5,14 @@ describe "When app starts", ->
       window.location.hash == ''
 
   it "should check if user is set", ->
-    runs ->
-      spyOn(Jog.Model.User, 'fetch')
+      runs ->
+        spyOn(Jog.Model.User, 'fetch')
+        Jog.start()
 
-      Jog.start()
+      waitsFor ->
+        Jog.Model.User.fetch.callCount == 1
+      , 1000, 'user check existence'
 
-    waitsFor ->
-      Jog.Model.User.fetch.callCount == 1
-    , 1000, 'user check existence'
 
   describe "and user is not set", ->
     it "should redirect to login screen", ->
@@ -20,11 +20,16 @@ describe "When app starts", ->
         spyOn(Jog.Model.User, 'fetch')
         spyOn(Jog.Controller.Session.prototype, 'new')
 
-        this.app = Jog.start()
+        Jog.start()
 
       waitsFor ->
-        this.app.controllers.session.new.callCount == 1
+        window.app
+
+      waitsFor ->
+        window.app.controllers.session.new.callCount == 1
       , 1000, 'redirect to new session'
+
+
 
   describe 'and user is set', ->
     it 'should validate user', ->
@@ -48,14 +53,17 @@ describe "When app starts", ->
           spyOn(Jog.Model.User, 'fetch').andReturn this.user
           spyOn(Jog.Controller.Posts.prototype, 'index')
 
-          this.app = Jog.start()
+          Jog.start()
 
         waitsFor ->
-          this.app.controllers.posts.index.callCount == 1
+          window.app
+
+        waitsFor ->
+          window.app.controllers.posts.index.callCount == 1
         , 1000, 'redirect to friends posts'
 
         runs ->
-          expect( this.app.controllers.posts.index ).toHaveBeenCalledWith 'friends'
+          expect( window.app.controllers.posts.index ).toHaveBeenCalledWith 'friends'
 
     describe 'and user is invalid', ->
       it 'should redirect to login screen', ->
@@ -65,8 +73,11 @@ describe "When app starts", ->
           spyOn(Jog.Model.User, 'fetch').andReturn this.user
           spyOn(Jog.Controller.Session.prototype, 'new')
 
-          this.app = Jog.start()
+          Jog.start()
 
         waitsFor ->
-          this.app.controllers.session.new.callCount == 1
+          window.app
+
+        waitsFor ->
+          window.app.controllers.session.new.callCount == 1
         , 1000, 'redirect to new session'
