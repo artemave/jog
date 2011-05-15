@@ -11,6 +11,7 @@ var dep_libs = [
 ];
 var app_libs = [
   'cs!migrations',
+  'cs!lib/backbone_sync',
   'cs!config',
   'cs!controllers/app_controller',
   'cs!controllers/session',
@@ -70,6 +71,7 @@ require({
             var specs = [
               'cs!spec/helpers',
               'cs!spec/integration/startup_spec',
+              'cs!spec/integration/backbone_sync_spec',
               'cs!spec/models/user_spec'
             ];
             var spec_deps = [

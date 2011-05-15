@@ -1,5 +1,5 @@
 describe 'Jog.Model.User', ->
-  describe 'persistance', ->
+  describe 'persistence', ->
     it 'should have method store', ->
       user = new Jog.Model.User
       expect(user).toHaveMethod('store')
