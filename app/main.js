@@ -10,7 +10,7 @@ var dep_libs = [
   'cs!lib/namespace'
 ];
 var app_libs = [
-  'cs!migrations/10_users',
+  'cs!migrations',
   'cs!config',
   'cs!controllers/app_controller',
   'cs!controllers/session',
@@ -28,7 +28,7 @@ require({
       migrations: '../db/migrations',
       spec: '../spec'
     }
-  }, dep_libs, function() {
+  }, dep_libs, function(migrations) {
       require(app_libs, function() {
           function ignite_with(fire) {
             if (Jog.config.current_device == 'mobile' && navigator.device == undefined) { //navigator.device == undefined is a hack against deviceready being fired too early to catch (android)
@@ -42,30 +42,26 @@ require({
           };
 
           Jog.start = function() {
-            persistence.migrations.init(function() {
-                persistence.migrate(function() {
-                    var app = {
-                      controllers: {
-                        main: new Jog.Controller.Main,
-                        session: new Jog.Controller.Session,
-                        posts: new Jog.Controller.Posts,
-                        friends: new Jog.Controller.Friends
-                      }
-                    };
+            var app = {
+              controllers: {
+                main: new Jog.Controller.Main,
+                session: new Jog.Controller.Session,
+                posts: new Jog.Controller.Posts,
+                friends: new Jog.Controller.Friends
+              }
+            };
 
-                    try {
-                      Backbone.history.start();
-                    }
-                    catch (e) {
-                      if (e.message != 'Backbone.history has already been started') {
-                        throw e;
-                      }
-                    }
+            try {
+              Backbone.history.start();
+            }
+            catch (e) {
+              if (e.message != 'Backbone.history has already been started') {
+                throw e;
+              }
+            }
 
-                    app.controllers.main.start();
-                    window.app = app;
-                });
-            });
+            app.controllers.main.start();
+            window.app = app;
           };
 
           Jog.config = new Jog.Config({env: ENV});
@@ -95,7 +91,9 @@ require({
           }
           else {
             ignite_with(function() {
-                Jog.start();
+                migrations.run(function() {
+                    Jog.start();
+                });
             });
           }
       });
