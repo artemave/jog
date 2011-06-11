@@ -1,40 +1,32 @@
-describe 'Backbone.sync websql persistence strategy', ->
-  model = {}
-  options =
-    success: ->
-    error: ->
+describe 'persistence.js extension to Backbone.Model', ->
+  persistence.store.websql.config persistence, 'test_backbone_persistence', '', 10240
 
-  beforeEach ->
-    model = {}
-    options =
-      success: ->
-      error: ->
+  it 'should allow to define model schema', ->
+    err = jasmine.createSpy()
+    suc = jasmine.createSpy()
 
-  describe 'arguments', ->
-    it 'should validate arguments', ->
-      spyOn Backbone.persistence, 'validate_args'
+    persistence.transaction (tx) ->
+      tx.executeSql 'DROP TABLE IF EXISTS posts'
 
-      Backbone.persistence.sync 'create', model, options
+    class Post extends Backbone.Model
+      Backbone.persistence.call this, 'posts',
+        title: 'TEXT'
+        text: 'TEXT'
+        author_id: 'INT'
 
-      expect(Backbone.persistence.validate_args).toHaveBeenCalledWith('create', model, options)
+    persistence.schemaSync()
+    persistence.transaction (tx) ->
+      tx.executeSql 'INSERT INTO posts (title, text, author_id) VALUES ("blah", "lots of text", 1)'
+    , suc, err
 
-    describe 'method argument', ->
-      it 'should accept "create"', ->
-        expect(-> Backbone.persistence.sync('create', model, options).not.toThrow(Error)
-      it 'should accept "read"', ->
-        expect(-> Backbone.persistence.sync('read', model, options).not.toThrow(Error)
-      it 'should accept "update"', ->
-        expect(-> Backbone.persistence.sync('update', model, options).not.toThrow(Error)
-      it 'should accept "delete"', ->
-        expect(-> Backbone.persistence.sync('delete', model, options).not.toThrow(Error)
-      it 'should raise error on any other value', ->
-        expect(-> Backbone.persistence.sync('someothermethod', model, options).not.toThrow(Error)
+    expect(suc).toHaveBeenCalled()
+    expect(err).not.toHaveBeenCalled()
 
-    describe 'model argument', ->
-      it 'should have attributes hash', ->
+  it 'should expose pjs constructor api'
 
-    describe 'success argument', ->
-      it 'should be a function', ->
+  it 'should fetch model instance from db'
+  it 'should save new instance to db'
+  it 'should save changes to existing model to db'
+  it 'should delete model instance from db'
 
-    describe 'error argument', ->
-      it 'should be a function', ->
+

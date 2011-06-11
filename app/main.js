@@ -71,7 +71,7 @@ require({
             var specs = [
               'cs!spec/helpers',
               'cs!spec/integration/startup_spec',
-              'cs!spec/integration/backbone_sync_spec',
+              //'cs!spec/integration/backbone_sync_spec',
               'cs!spec/models/user_spec'
             ];
             var spec_deps = [
